@@ -3,6 +3,25 @@ import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objs as go
 
+## added---------------------------
+# import libraries and packages
+import plotly.express as px
+import plotly.graph_objects as go
+from jupyter_dash import JupyterDash
+import dash_core_components as dcc
+import dash_html_components as html
+from dash.dependencies import Input, Output
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import yfinance as yf
+import datetime
+# need this to render plotly images
+import plotly.io as pio
+pio.renderers.default='iframe'
+
+## ----------------------------------
+
 ########### Define your variables
 beers=['Chesapeake Stout', 'Snake Dog IPA', 'Imperial Porter', 'Double Dog IPA']
 ibu_values=[35, 60, 85, 75]
