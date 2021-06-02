@@ -148,58 +148,6 @@ sp_df = pd.concat([sp_df,sp_cumulative.to_frame()],axis=1)
 
 sp_df.columns = ['S&P 500']
 
-# -----------------------------------------------
-
-# individual security performance
-
-individual_df = pd.DataFrame()
-
-for i in models:
-    df = i
-    
-    # Create a list of all tickers and weights
-    tickers =  df['Ticker'].tolist()
-    weights = df['Weight'].tolist()
-    
-    # Download price data for all securities. We will be using Adjusted Closing price as a proxy for stock price. 0P0001I2A1.L is a money-market fund used as a proxy for cash.
-    prices = yf.download(tickers = tickers, start = start, end = end, progress = False)
-    prices = prices.drop(['Open', 'High', 'Low', 'Close', 'Volume'], axis = 1)
-    prices = prices.round(3)
-    prices = prices.rename(columns ={'0P0001I2A1.L':'Cash'})
-    prices= prices['Adj Close'].dropna()
-    
-    # Calculate daily percentage change in prices
-    daily_returns = round(prices.pct_change(),3)[1:]
-    
-    # calculate individual stock performance
-    individual_cumulative_returns = round((daily_returns+1).cumprod(),3)
-    individual_df = pd.concat([individual_df,individual_cumulative_returns], axis = 1)
-
-individual_df = individual_df.loc[:,~individual_df.columns.duplicated()]
-
-a = individual_df.filter(items=models[0]['Ticker'])
-b = individual_df.filter(items=models[1]['Ticker'])
-c = individual_df.filter(items=models[2]['Ticker'])
-d = individual_df.filter(items=models[3]['Ticker'])
-e = individual_df.filter(items=models[4]['Ticker'])
-f = individual_df.filter(items=models[5]['Ticker'])
-g = individual_df.filter(items=models[6]['Ticker'])
-h = individual_df.filter(items=models[7]['Ticker'])
-i = individual_df.filter(items=models[8]['Ticker'])
-j = individual_df.filter(items=models[9]['Ticker'])
-
-dict = {
-    'NQ Conservative' : a,
-    'NQ Moderately Conservative' : b,
-    'NQ Moderate' : c,
-    'NQ Moderately Aggressive' : d,
-    'NQ Aggressive' : e,
-    'Q Conservative' : f,
-    'Q Moderately Conservative' : g,
-    'Q Moderate' : h,
-    'Q Moderately Aggressive' :  i,
-    'Q Aggressive' : j
-}
 
 # ----------------------------------------------- END ADDED
 
